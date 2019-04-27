@@ -71,7 +71,7 @@ const intToWord = (num) => {
   }
   if (num > 9) { numWord += dblDigitToWord(tensInput + onesInput) }
   if (num <= 9) { numWord += dblDigitToWord(onesInput) }
-  return numWord
+  return numWord.trim()
 }
 
 const dblDigitToWord = (numStr) => {
