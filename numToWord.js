@@ -46,6 +46,7 @@ const intToWord = (num) => {
   const hundredsInput = numArr[2]
   const thousandsInput = numArr[3]
   const tenThousandsInput = numArr[4]
+  const dblDigits = dblDigitToWord(tensInput, onesInput)
   let numWord = ''
   /*
    * Melroy: mentally frame the word output like this:
@@ -54,13 +55,23 @@ const intToWord = (num) => {
    * [a, b, c, d, e]
    * [1, 4, 2, 1, 5]
    */
-   if (num === 0) { return "zero" }
-  numWord += dblDigitToWord(tensInput, onesInput)
-
+  if (num === 0) { return "zero" }
+  if (num < 99) { return dblDigits }
+  if (num > 99) {
+    numWord += dblDigitToWord(0, hundredsInput) + ' hundred'
+    numWord += (
+      dblDigits.length > 0
+      ? ' and ' + dblDigits
+      : ''
+    )
+  }
   return numWord
 }
 
 const dblDigitToWord = (tens, ones) => {
+  if (tens === "0") {
+    return (ones === "0" ? '' : singlesWords[ones])
+  }
   // Second, solve for two-digits when the 'tens' input is 1.
   if (tens === "1") { return uniqueTensWords[ones] }
   // Third, solve for two-digits when the 'tens' input is not 1.
