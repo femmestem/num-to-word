@@ -46,7 +46,6 @@ const intToWord = (num) => {
   const hundredsInput = numArr[2]
   const thousandsInput = numArr[3]
   const tenThousandsInput = numArr[4]
-  const dblDigits = dblDigitToWord(tensInput, onesInput)
   let numWord = ''
   /*
    * Melroy: mentally frame the word output like this:
@@ -56,31 +55,40 @@ const intToWord = (num) => {
    * [1, 4, 2, 1, 5]
    */
   if (num === 0) { return "zero" }
-  if (num < 99) { return dblDigits }
-  if (num > 99) {
-    numWord += dblDigitToWord(0, hundredsInput) + ' hundred'
-    numWord += (
-      dblDigits.length > 0
-      ? ' and ' + dblDigits
-      : ''
-    )
+  if (num > 9999) {
+    let factorThousand = dblDigitToWord(tenThousandsInput+thousandsInput)
+    numWord +=  factorThousand ? factorThousand + ' thousand ' : ''
   }
+  if (num > 999 && num <= 9999) {
+    let factorThousand = dblDigitToWord(thousandsInput)
+    numWord +=  factorThousand ? factorThousand + ' thousand ' : ''
+  }
+  if (num > 99) {
+    let factorHundred = dblDigitToWord(hundredsInput)
+    let factorTens = dblDigitToWord(tensInput + onesInput)
+    numWord += factorHundred.length > 0 ? factorHundred + ' hundred' : ''
+    numWord += factorTens.length > 0 ? ' and ' : ''
+  }
+  if (num > 9) { numWord += dblDigitToWord(tensInput + onesInput) }
+  if (num <= 9) { numWord += dblDigitToWord(onesInput) }
   return numWord
 }
 
-const dblDigitToWord = (tens, ones) => {
-  if (tens === "0") {
-    return (ones === "0" ? '' : singlesWords[ones])
-  }
-  // Second, solve for two-digits when the 'tens' input is 1.
-  if (tens === "1") { return uniqueTensWords[ones] }
-  // Third, solve for two-digits when the 'tens' input is not 1.
-  if (tens && tens !== "1") {
-    return (
-      wholeTensWords[tens] +
-      (singlesWords[ones] ? '-' + singlesWords[ones] : '')
+const dblDigitToWord = (numStr) => {
+    let num = parseInt(numStr)
+    let tensIndex = numStr[0]
+    let singlesIndex = (
+      num < 10
+        ? num
+        : numStr[1]
     )
-  }
-  // First, solve for the smallest input (singles).
-  if (tens !== "1") { return singlesWords[ones] }
+    if (num < 10 && num > 0) { return singlesWords[singlesIndex] }
+    if (num > 9 && num < 20) { return uniqueTensWords[singlesIndex] }
+    if(singlesIndex === '0') { return wholeTensWords[tensIndex] }
+    if (num > 19) {
+      return (
+        `${wholeTensWords[tensIndex]}-${singlesWords[singlesIndex]}`
+      )
+    }
+    return ''
 }
