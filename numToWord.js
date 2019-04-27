@@ -1,6 +1,5 @@
 // Melroy: write out all the unique kinds of words you will need
 const singlesWords = {
-  0: "zero",
   1: "one",
   2: "two",
   3: "three",
@@ -55,19 +54,22 @@ const intToWord = (num) => {
    * [a, b, c, d, e]
    * [1, 4, 2, 1, 5]
    */
+   if (num === 0) { return "zero" }
   numWord += dblDigitToWord(tensInput, onesInput)
 
   return numWord
 }
 
 const dblDigitToWord = (tens, ones) => {
-  let numStr = ''
-  // First, solve for the smallest input (singles).
-  if (tens !== "1") { return singlesWords[ones] }
   // Second, solve for two-digits when the 'tens' input is 1.
   if (tens === "1") { return uniqueTensWords[ones] }
-
   // Third, solve for two-digits when the 'tens' input is not 1.
-
-  return numStr
+  if (tens && tens !== "1") {
+    return (
+      wholeTensWords[tens] +
+      (singlesWords[ones] ? singlesWords[ones] : '')
+    )
+  }
+  // First, solve for the smallest input (singles).
+  if (tens !== "1") { return singlesWords[ones] }
 }
