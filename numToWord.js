@@ -54,18 +54,20 @@ const intToWord = (num) => {
    * [fn(a,b)] thousand [c] hundred and [fn(d,e)]
    * [a, b, c, d, e]
    * [1, 4, 2, 1, 5]
-   *
-   * Melroy:
-   * First, solve for the smallest input (singles).
-   * Second, solve for two-digits when the 'tens' input is 1.
-   * Third, solve for two-digits when the 'tens' input is not 1.
-   * Last, form the string.
-  */
+   */
   numWord += dblDigitToWord(tensInput, onesInput)
 
   return numWord
 }
 
 const dblDigitToWord = (tens, ones) => {
-  return singlesWords[ones]
+  let numStr = ''
+  // First, solve for the smallest input (singles).
+  if (tens !== "1") { return singlesWords[ones] }
+  // Second, solve for two-digits when the 'tens' input is 1.
+  if (tens === "1") { return uniqueTensWords[ones] }
+
+  // Third, solve for two-digits when the 'tens' input is not 1.
+
+  return numStr
 }
