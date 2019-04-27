@@ -1,3 +1,4 @@
+const HumanReadableNumber = (() => {
 // Melroy: write out all the unique kinds of words you will need
 const singlesWords = {
   1: "one",
@@ -92,3 +93,24 @@ const dblDigitToWord = (numStr) => {
     }
     return ''
 }
+// Explicitly reveal public pointers to the private functions we want to expose
+  return {
+    intToWord: intToWord
+  }
+})()
+
+// TESTS BELOW
+// Passing tests are `true`
+HumanReadableNumber.intToWord(-0) === 'zero'
+HumanReadableNumber.intToWord(0) === 'zero'
+HumanReadableNumber.intToWord(1) === 'one'
+HumanReadableNumber.intToWord(11) === 'eleven'
+HumanReadableNumber.intToWord(24) === 'twenty-four'
+HumanReadableNumber.intToWord(40) === 'forty'
+HumanReadableNumber.intToWord(300) === 'three hundred'
+HumanReadableNumber.intToWord(301) === 'three hundred and one'
+HumanReadableNumber.intToWord(321) === 'three hundred and twenty-one'
+HumanReadableNumber.intToWord(5000) === 'five thousand'
+HumanReadableNumber.intToWord(5001) === 'five thousand and one'
+HumanReadableNumber.intToWord(5100) === 'five thousand one hundred'
+HumanReadableNumber.intToWord(14215) === 'fourteen thousand two hundred and fifteen'
