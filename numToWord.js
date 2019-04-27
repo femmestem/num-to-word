@@ -67,7 +67,7 @@ const dblDigitToWord = (tens, ones) => {
   if (tens && tens !== "1") {
     return (
       wholeTensWords[tens] +
-      (singlesWords[ones] ? singlesWords[ones] : '')
+      (singlesWords[ones] ? '-' + singlesWords[ones] : '')
     )
   }
   // First, solve for the smallest input (singles).
