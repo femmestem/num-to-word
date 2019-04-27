@@ -8,6 +8,7 @@ On-site technical whiteboard exercise with UC engineering team.
 
 ## Usage
 Given: 14215
+
 Expected Result: "fourteen thousand two hundred and fifteen"
 
 Example:
